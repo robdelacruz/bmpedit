@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>canvas test</title>
+<style>
+body {
+    background-color: lightgrey;
+}
+canvas {
+    border: 1px solid #5f5;
+    cursor: pointer;
+}
+#preview {
+    margin: 2em 0 0;
+    border: 1px solid #fff;
+}
+form {
+    margin-bottom: 1em;
+}
+</style>
+</head>
+<body>
+<h1>Test</h1>
+<form id="form1">
+    <div>
+        <label for="gridxcells">x cells:</label>
+        <input type="text" name="gridxcells" size="3" value="10">
+        <label for="gridycells">y cells:</label>
+        <input type="text" name="gridycells" size="3" value="10">
+        <label for="cellw">grid cell size:</label>
+        <input type="text" name="cellw" size="3" value="20">
+        <label for="imgcellw">image cell size:</label>
+        <input type="text" name="imgcellw" size="3" value="8">
+        <button id="reset" type="button">Reset</button>
+    </div>
+</form>
+<canvas id="canvas1">
+</canvas>
+
+<p>
+<img id="preview">
+</p>
+
+<script src="graphics.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
+
