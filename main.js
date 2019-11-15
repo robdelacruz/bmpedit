@@ -8,8 +8,25 @@ let gridxcells = document.querySelector("[name=gridxcells]");
 let gridycells = document.querySelector("[name=gridycells]");
 let cellw = document.querySelector("[name=cellw]");
 let imgcellw = document.querySelector("[name=imgcellw]");
+let palette = document.querySelector(".palette");
 
 let G = {};
+setBrush("#FFF1E8");
+
+function initPalettePanel() {
+    let divs = document.querySelectorAll(".palette [color]");
+    for (let i=0; i < divs.length; i++) {
+        let div = divs[i];
+        let clr = div.getAttribute("color");
+        div.style.backgroundColor = clr;
+    }
+}
+
+function setBrush(fg) {
+    let divfg = document.querySelector(".brush .fg");
+    divfg.style.backgroundColor = fg;
+    G.fg = fg;
+}
 
 function Reset(gridxcells, gridycells, cellw, imgcellw) {
     G.gridxcells = gridxcells;
@@ -55,13 +72,23 @@ cv.addEventListener("mousedown", function(e) {
     let cellx = Math.trunc(e.offsetX / G.cellw);
     let celly = Math.trunc(e.offsetY / G.cellw);
 
-    c.fillStyle = "#ff0";
+    c.fillStyle = G.fg;
     c.fillRect(cellx*G.cellw, celly*G.cellw, G.cellw,G.cellw);
 
-    cbuf.fillStyle = "#ff0";
+    cbuf.fillStyle = G.fg;
     cbuf.fillRect(cellx*G.imgcellw, celly*G.imgcellw, G.imgcellw, G.imgcellw);
     preview.src = cvbuf.toDataURL();
 });
+
+palette.addEventListener("mousedown", function(e) {
+    let seldiv = e.target;
+    if (seldiv.getAttribute("color") == "") return;
+
+    let clr = seldiv.getAttribute("color");
+    setBrush(clr);
+});
+
+initPalettePanel();
 
 Reset(parseInt(gridxcells.value), parseInt(gridycells.value), parseInt(cellw.value), parseInt(imgcellw.value));
 
