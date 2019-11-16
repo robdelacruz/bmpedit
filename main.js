@@ -1,6 +1,7 @@
 let cv = document.querySelector("#canvas1");
 let c = cv.getContext("2d");
 let preview = document.querySelector("#preview");
+let previewdl = document.querySelector("#previewdl");
 let cvbuf = document.createElement("canvas");
 let cbuf = cvbuf.getContext("2d");
 
@@ -66,6 +67,7 @@ function Reset(gridxcells, gridycells, cellw, imgcellw) {
     c.stroke();
 
     preview.src = cvbuf.toDataURL();
+    previewdl.setAttribute("href", cvbuf.toDataURL());
 }
 
 cv.addEventListener("mousedown", function(e) {
@@ -78,6 +80,7 @@ cv.addEventListener("mousedown", function(e) {
     cbuf.fillStyle = G.fg;
     cbuf.fillRect(cellx*G.imgcellw, celly*G.imgcellw, G.imgcellw, G.imgcellw);
     preview.src = cvbuf.toDataURL();
+    previewdl.setAttribute("href", cvbuf.toDataURL());
 });
 
 palette.addEventListener("mousedown", function(e) {
