@@ -14,8 +14,8 @@ D.palette = document.querySelector(".palette");
 D.reset = document.querySelector("#reset");
 
 let C = {};
-let dotted = document.querySelector("#dotted");
-C.transparentPattern = D.ccgrid.createPattern(dotted, "repeat");
+let transparentbg = document.querySelector("#transparentbg");
+C.transparentPattern = D.ccgrid.createPattern(transparentbg, "repeat");
 
 let G = {};
 
@@ -41,7 +41,7 @@ function setBrush(fg) {
     divfg.style.backgroundRepeat = "";
 
     if (fg == C.transparentPattern) {
-        divfg.style.backgroundImage = "url(dotted.png)";
+        divfg.style.backgroundImage = "url(transparentbg.png)";
         divfg.style.backgroundRepeat = "repeat";
     }
 }
@@ -93,7 +93,7 @@ D.cvgrid.addEventListener("mousedown", function(e) {
     if (G.cellw < 8) {
         D.ccgrid.fillRect(cellx*G.cellw, celly*G.cellw, G.cellw,G.cellw);
     } else {
-        D.ccgrid.fillRect(cellx*G.cellw+1, celly*G.cellw+1, G.cellw-2,G.cellw-2);
+        D.ccgrid.fillRect(cellx*G.cellw+1, celly*G.cellw+1, G.cellw-1,G.cellw-1);
     }
 
     D.ccbuf.fillStyle = G.fg;

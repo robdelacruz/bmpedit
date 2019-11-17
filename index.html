@@ -12,7 +12,7 @@ body {
     background-color: lightgrey;
 }
 canvas {
-    border: 1px solid #5f5;
+    border: 1px solid #fff;
     cursor: pointer;
 }
 #preview {
@@ -47,7 +47,7 @@ form {
     border: 1px solid;
 }
 .palette [title='transparent'] {
-    background-image: url("dotted.png");
+    background-image: url("transparentbg.png");
     background-repeat: repeat;
 }
 #preview {
@@ -73,13 +73,13 @@ form {
     <div class="palette">
         <div color="#000000" title="transparent"></div> 
         <div color="#000000" title="black"></div> 
-        <div color="#1D2B53" title="dark-blue"></div> 
+        <div color="#1D2B53" title="dark-blue" startcolor></div> 
         <div color="#7E2553" title="dark-puple"></div>
         <div color="#008751" title="dark-green"></div>
         <div color="#AB5236" title="brown"></div>
         <div color="#5F574F" title="dark-grey"></div>
         <div color="#C2C3C7" title="light-grey"></div>
-        <div color="#FFF1E8" title="white" startcolor></div>
+        <div color="#FFF1E8" title="white"></div>
         <div color="#FF004D" title="red"></div>
         <div color="#FFA300" title="orange"></div>
         <div color="#FFEC27" title="yellow"></div>
@@ -105,7 +105,7 @@ form {
 </p>
 
 <div class="hide">
-    <img id="dotted" src="dotted.png">
+    <img id="transparentbg" src="transparentbg.png">
 </div>
 
 <script src="graphics.js"></script>
