@@ -5,6 +5,10 @@ let previewdl = document.querySelector("#previewdl");
 let cvbuf = document.createElement("canvas");
 let cbuf = cvbuf.getContext("2d");
 
+let img = document.createElement("img");
+img.src = "dotted.png";
+let transparentPattern = c.createPattern(img, "repeat");
+
 let gridxcells = document.querySelector("[name=gridxcells]");
 let gridycells = document.querySelector("[name=gridycells]");
 let cellw = document.querySelector("[name=cellw]");
@@ -21,12 +25,18 @@ function initPalettePanel() {
         let clr = div.getAttribute("color");
         div.style.backgroundColor = clr;
     }
+
 }
 
 function setBrush(fg) {
+    G.fg = fg;
+
     let divfg = document.querySelector(".brush .fg");
     divfg.style.backgroundColor = fg;
-    G.fg = fg;
+    if (fg == transparentPattern) {
+        divfg.style.backgroundImage = "url(dotted.png)";
+        divfg.style.backgroundRepeat = "repeat";
+    }
 }
 
 function Reset(gridxcells, gridycells, cellw, imgcellw) {
@@ -48,9 +58,12 @@ function Reset(gridxcells, gridycells, cellw, imgcellw) {
     cvbuf.height = preview.height;
 
     // Clear grid and offscreen canvas
-    cbuf.clearRect(0,0, cvbuf.width,cvbuf.height);
-    c.strokeStyle = "#fff";
+    c.fillStyle = transparentPattern;
     c.fillRect(0,0, cv.width,cv.height);
+
+    cbuf.fillStyle = transparentPattern;
+    cbuf.clearRect(0,0, cvbuf.width,cvbuf.height);
+    setCanvasRegionTransparent(cbuf, 0,0, cvbuf.width,cvbuf.height);
 
     // Draw grid lines
     c.strokeStyle = "#fff";
@@ -79,6 +92,12 @@ cv.addEventListener("mousedown", function(e) {
 
     cbuf.fillStyle = G.fg;
     cbuf.fillRect(cellx*G.imgcellw, celly*G.imgcellw, G.imgcellw, G.imgcellw);
+
+    // Make transparent color see through (set alpha to 0).
+    if (cbuf.fillStyle == transparentPattern) {
+        setCanvasRegionTransparent(cbuf, cellx*G.imgcellw,celly*G.imgcellw, G.imgcellw,G.imgcellw);
+    }
+
     preview.src = cvbuf.toDataURL();
     previewdl.setAttribute("href", cvbuf.toDataURL());
 });
@@ -88,6 +107,9 @@ palette.addEventListener("mousedown", function(e) {
     if (seldiv.getAttribute("color") == "") return;
 
     let clr = seldiv.getAttribute("color");
+    if (seldiv.getAttribute("name") == "transparent") {
+        clr = transparentPattern;
+    }
     setBrush(clr);
 });
 

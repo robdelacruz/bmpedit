@@ -42,10 +42,14 @@ form {
     min-height: 20px;
     border: 1px solid;
 }
+.palette [name=transparent] {
+    background-image: url("dotted.png");
+    background-repeat: repeat;
+}
 </style>
 </head>
 <body>
-<h1>Test</h1>
+<h1>bmpedit</h1>
 <form id="form1">
     <div>
         <label for="gridxcells">x cells:</label>
@@ -59,6 +63,7 @@ form {
         <button id="reset" type="button">Reset</button>
     </div>
     <div class="palette">
+        <div color="#000000" name="transparent" title="transparent color"></div> 
         <div color="#000000" name="black"></div> 
         <div color="#1D2B53" name="dark-blue"></div> 
         <div color="#7E2553" name="dark-puple"></div>
