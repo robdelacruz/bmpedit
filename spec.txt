@@ -1,0 +1,5 @@
+todo:
+- Preserve edited image when resizing the grid.
+- Add a clear function.
+- Add a load image function.
+
