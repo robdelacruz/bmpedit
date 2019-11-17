@@ -5,9 +5,8 @@ let previewdl = document.querySelector("#previewdl");
 let cvbuf = document.createElement("canvas");
 let cbuf = cvbuf.getContext("2d");
 
-let img = document.createElement("img");
-img.src = "dotted.png";
-let transparentPattern = c.createPattern(img, "repeat");
+let dotted = document.querySelector("#dotted");
+let transparentPattern = c.createPattern(dotted, "repeat");
 
 let gridxcells = document.querySelector("[name=gridxcells]");
 let gridycells = document.querySelector("[name=gridycells]");
@@ -60,16 +59,10 @@ function Reset(gridxcells, gridycells, cellw, imgcellw) {
     // Clear grid and offscreen canvas
     c.fillStyle = transparentPattern;
     c.fillRect(0,0, cv.width,cv.height);
-
-    cbuf.fillStyle = transparentPattern;
     cbuf.clearRect(0,0, cvbuf.width,cvbuf.height);
-    setCanvasRegionTransparent(cbuf, 0,0, cvbuf.width,cvbuf.height);
 
     // Draw grid lines
-    c.strokeStyle = "#fff";
     c.fillStyle = "#fff";
-    c.lineWidth = 1;
-    c.beginPath();
     for (let y=cellw; y < cv.height; y+=cellw) {
         c.fillRect(0,y, cv.width,1);
     }
@@ -77,7 +70,6 @@ function Reset(gridxcells, gridycells, cellw, imgcellw) {
     for (let x=cellw; x < cv.width; x+=cellw) {
         c.fillRect(x,0, 1,cv.height);
     }
-    c.stroke();
 
     preview.src = cvbuf.toDataURL();
     previewdl.setAttribute("href", cvbuf.toDataURL());
@@ -93,9 +85,9 @@ cv.addEventListener("mousedown", function(e) {
     cbuf.fillStyle = G.fg;
     cbuf.fillRect(cellx*G.imgcellw, celly*G.imgcellw, G.imgcellw, G.imgcellw);
 
-    // Make transparent color see through (set alpha to 0).
+    // Make transparent color see through
     if (cbuf.fillStyle == transparentPattern) {
-        setCanvasRegionTransparent(cbuf, cellx*G.imgcellw,celly*G.imgcellw, G.imgcellw,G.imgcellw);
+        cbuf.clearRect(cellx*G.imgcellw,celly*G.imgcellw, G.imgcellw,G.imgcellw);
     }
 
     preview.src = cvbuf.toDataURL();

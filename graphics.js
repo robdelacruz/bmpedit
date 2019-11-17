@@ -14,12 +14,16 @@ function getCanvasImage(c) {
     return c.getImageData(0,0, c.canvas.width,c.canvas.height);
 }
 
+// Note: ctx.clearRect() sets region to transparent black, so maybe this function
+// isn't necessary. Just call clearRect() instead.
 function setCanvasRegionTransparent(c, x,y, w,h) {
-    let imgdata = c.getImageData(x,y, w,h);
-    for (let i = 0; i < imgdata.data.length; i+=4) {
-        imgdata.data[i+3] = 0;  // clear alpha byte to make transparent
-    }
-    c.putImageData(imgdata, x,y); 
+//    let imgdata = c.getImageData(x,y, w,h);
+//    for (let i = 0; i < imgdata.data.length; i+=4) {
+//        imgdata.data[i+3] = 0;  // clear alpha byte to make transparent
+//    }
+//    c.putImageData(imgdata, x,y); 
+
+    c.clearRect(x,y, w,h);
 }
 
 

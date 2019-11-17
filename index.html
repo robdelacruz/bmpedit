@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>canvas test</title>
 <style>
+.hide {
+    display: none;
+}
 body {
     background-color: lightgrey;
 }
@@ -43,6 +46,10 @@ form {
     border: 1px solid;
 }
 .palette [name=transparent] {
+    background-image: url("dotted.png");
+    background-repeat: repeat;
+}
+#preview {
     background-image: url("dotted.png");
     background-repeat: repeat;
 }
@@ -95,6 +102,10 @@ form {
 <p>
 <a id="previewdl" href="#" download="image.png">Download</a>
 </p>
+
+<div class="hide">
+    <img id="dotted" src="dotted.png">
+</div>
 
 <script src="graphics.js"></script>
 <script src="main.js"></script>
