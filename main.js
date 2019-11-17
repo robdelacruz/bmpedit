@@ -1,21 +1,23 @@
-let cv = document.querySelector("#canvas1");
-let c = cv.getContext("2d");
-let preview = document.querySelector("#preview");
-let previewdl = document.querySelector("#previewdl");
-let cvbuf = document.createElement("canvas");
-let cbuf = cvbuf.getContext("2d");
+let D = {};
+D.cvgrid = document.querySelector("#canvas1");
+D.ccgrid = D.cvgrid.getContext("2d");
+D.cvbuf = document.createElement("canvas");
+D.ccbuf = D.cvbuf.getContext("2d");
+D.preview = document.querySelector("#preview");
+D.previewdl = document.querySelector("#previewdl");
 
+D.gridxcells = document.querySelector("[name=gridxcells]");
+D.gridycells = document.querySelector("[name=gridycells]");
+D.cellw = document.querySelector("[name=cellw]");
+D.imgcellw = document.querySelector("[name=imgcellw]");
+D.palette = document.querySelector(".palette");
+D.reset = document.querySelector("#reset");
+
+let C = {};
 let dotted = document.querySelector("#dotted");
-let transparentPattern = c.createPattern(dotted, "repeat");
-
-let gridxcells = document.querySelector("[name=gridxcells]");
-let gridycells = document.querySelector("[name=gridycells]");
-let cellw = document.querySelector("[name=cellw]");
-let imgcellw = document.querySelector("[name=imgcellw]");
-let palette = document.querySelector(".palette");
+C.transparentPattern = D.ccgrid.createPattern(dotted, "repeat");
 
 let G = {};
-setBrush("#FFF1E8");
 
 function initPalettePanel() {
     let divs = document.querySelectorAll(".palette [color]");
@@ -25,6 +27,9 @@ function initPalettePanel() {
         div.style.backgroundColor = clr;
     }
 
+    let divStartColor = document.querySelector(".palette [startcolor]");
+    let startColor = divStartColor.getAttribute("color");
+    setBrush(startColor);
 }
 
 function setBrush(fg) {
@@ -32,7 +37,10 @@ function setBrush(fg) {
 
     let divfg = document.querySelector(".brush .fg");
     divfg.style.backgroundColor = fg;
-    if (fg == transparentPattern) {
+    divfg.style.backgroundImage = "";
+    divfg.style.backgroundRepeat = "";
+
+    if (fg == C.transparentPattern) {
         divfg.style.backgroundImage = "url(dotted.png)";
         divfg.style.backgroundRepeat = "repeat";
     }
@@ -45,72 +53,78 @@ function Reset(gridxcells, gridycells, cellw, imgcellw) {
     G.imgcellw = imgcellw;
 
     // Set grid canvas dimensions
-    cv.width = gridxcells * cellw;
-    cv.height = gridycells * cellw;
+    D.cvgrid.width = gridxcells * cellw;
+    D.cvgrid.height = gridycells * cellw;
 
     // Set image dimensions
-    preview.width = gridxcells * imgcellw;
-    preview.height = gridycells * imgcellw;
+    D.preview.width = gridxcells * imgcellw;
+    D.preview.height = gridycells * imgcellw;
 
     // Set offscreen canvas dimensions
-    cvbuf.width = preview.width;
-    cvbuf.height = preview.height;
+    D.cvbuf.width = D.preview.width;
+    D.cvbuf.height = D.preview.height;
 
     // Clear grid and offscreen canvas
-    c.fillStyle = transparentPattern;
-    c.fillRect(0,0, cv.width,cv.height);
-    cbuf.clearRect(0,0, cvbuf.width,cvbuf.height);
+    D.ccgrid.fillStyle = C.transparentPattern;
+    D.ccgrid.fillRect(0,0, D.cvgrid.width,D.cvgrid.height);
+    D.ccbuf.clearRect(0,0, D.cvbuf.width,D.cvbuf.height);
 
     // Draw grid lines
-    c.fillStyle = "#fff";
-    for (let y=cellw; y < cv.height; y+=cellw) {
-        c.fillRect(0,y, cv.width,1);
+    D.ccgrid.fillStyle = "#fff";
+    for (let y=cellw; y < D.cvgrid.height; y+=cellw) {
+        D.ccgrid.fillRect(0,y, D.cvgrid.width,1);
     }
 
-    for (let x=cellw; x < cv.width; x+=cellw) {
-        c.fillRect(x,0, 1,cv.height);
+    for (let x=cellw; x < D.cvgrid.width; x+=cellw) {
+        D.ccgrid.fillRect(x,0, 1,D.cvgrid.height);
     }
 
-    preview.src = cvbuf.toDataURL();
-    previewdl.setAttribute("href", cvbuf.toDataURL());
+    D.preview.src = D.cvbuf.toDataURL();
+    D.previewdl.setAttribute("href", D.cvbuf.toDataURL());
 }
 
-cv.addEventListener("mousedown", function(e) {
+D.cvgrid.addEventListener("mousedown", function(e) {
     let cellx = Math.trunc(e.offsetX / G.cellw);
     let celly = Math.trunc(e.offsetY / G.cellw);
 
-    c.fillStyle = G.fg;
-    c.fillRect(cellx*G.cellw, celly*G.cellw, G.cellw,G.cellw);
-
-    cbuf.fillStyle = G.fg;
-    cbuf.fillRect(cellx*G.imgcellw, celly*G.imgcellw, G.imgcellw, G.imgcellw);
-
-    // Make transparent color see through
-    if (cbuf.fillStyle == transparentPattern) {
-        cbuf.clearRect(cellx*G.imgcellw,celly*G.imgcellw, G.imgcellw,G.imgcellw);
+    D.ccgrid.fillStyle = G.fg;
+    // If grid square too small, just fill over the gridlines.
+    // Else if we have room, preserve the gridlines.
+    if (G.cellw < 8) {
+        D.ccgrid.fillRect(cellx*G.cellw, celly*G.cellw, G.cellw,G.cellw);
+    } else {
+        D.ccgrid.fillRect(cellx*G.cellw+1, celly*G.cellw+1, G.cellw-2,G.cellw-2);
     }
 
-    preview.src = cvbuf.toDataURL();
-    previewdl.setAttribute("href", cvbuf.toDataURL());
+    D.ccbuf.fillStyle = G.fg;
+    D.ccbuf.fillRect(cellx*G.imgcellw, celly*G.imgcellw, G.imgcellw, G.imgcellw);
+
+    // Make transparent color see through
+    if (D.ccbuf.fillStyle == C.transparentPattern) {
+        D.ccbuf.clearRect(cellx*G.imgcellw,celly*G.imgcellw, G.imgcellw,G.imgcellw);
+    }
+
+    D.preview.src = D.cvbuf.toDataURL();
+    D.previewdl.setAttribute("href", D.cvbuf.toDataURL());
 });
 
-palette.addEventListener("mousedown", function(e) {
+D.palette.addEventListener("mousedown", function(e) {
     let seldiv = e.target;
     if (seldiv.getAttribute("color") == "") return;
 
     let clr = seldiv.getAttribute("color");
-    if (seldiv.getAttribute("name") == "transparent") {
-        clr = transparentPattern;
+    if (seldiv.getAttribute("title") == "transparent") {
+        clr = C.transparentPattern;
     }
     setBrush(clr);
 });
 
 initPalettePanel();
 
-Reset(parseInt(gridxcells.value), parseInt(gridycells.value), parseInt(cellw.value), parseInt(imgcellw.value));
+Reset(parseInt(D.gridxcells.value), parseInt(D.gridycells.value), parseInt(D.cellw.value), parseInt(D.imgcellw.value));
 
-document.querySelector("#reset").addEventListener("click", function(e) {
+D.reset.addEventListener("click", function(e) {
     e.preventDefault();
 
-    Reset(parseInt(gridxcells.value), parseInt(gridycells.value), parseInt(cellw.value), parseInt(imgcellw.value));
+    Reset(parseInt(D.gridxcells.value), parseInt(D.gridycells.value), parseInt(D.cellw.value), parseInt(D.imgcellw.value));
 });

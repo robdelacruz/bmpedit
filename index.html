@@ -29,6 +29,7 @@ form {
     flex-wrap: wrap;
     width: 500px;
     border: 1px solid;
+    cursor: pointer;
 }
 .palette [color] {
     flex: 1;
@@ -45,7 +46,7 @@ form {
     min-height: 20px;
     border: 1px solid;
 }
-.palette [name=transparent] {
+.palette [title='transparent'] {
     background-image: url("dotted.png");
     background-repeat: repeat;
 }
@@ -70,23 +71,23 @@ form {
         <button id="reset" type="button">Reset</button>
     </div>
     <div class="palette">
-        <div color="#000000" name="transparent" title="transparent color"></div> 
-        <div color="#000000" name="black"></div> 
-        <div color="#1D2B53" name="dark-blue"></div> 
-        <div color="#7E2553" name="dark-puple"></div>
-        <div color="#008751" name="dark-green"></div>
-        <div color="#AB5236" name="brown"></div>
-        <div color="#5F574F" name="dark-grey"></div>
-        <div color="#C2C3C7" name="light-grey"></div>
-        <div color="#FFF1E8" name="white"></div>
-        <div color="#FF004D" name="red"></div>
-        <div color="#FFA300" name="orange"></div>
-        <div color="#FFEC27" name="yellow"></div>
-        <div color="#00E436" name="green"></div>
-        <div color="#29ADFF" name="blue"></div>
-        <div color="#83769C" name="indigo"></div>
-        <div color="#FF77A8" name="pink"></div>
-        <div color="#FFCCAA" name="peach"></div>
+        <div color="#000000" title="transparent"></div> 
+        <div color="#000000" title="black"></div> 
+        <div color="#1D2B53" title="dark-blue"></div> 
+        <div color="#7E2553" title="dark-puple"></div>
+        <div color="#008751" title="dark-green"></div>
+        <div color="#AB5236" title="brown"></div>
+        <div color="#5F574F" title="dark-grey"></div>
+        <div color="#C2C3C7" title="light-grey"></div>
+        <div color="#FFF1E8" title="white" startcolor></div>
+        <div color="#FF004D" title="red"></div>
+        <div color="#FFA300" title="orange"></div>
+        <div color="#FFEC27" title="yellow"></div>
+        <div color="#00E436" title="green"></div>
+        <div color="#29ADFF" title="blue"></div>
+        <div color="#83769C" title="indigo"></div>
+        <div color="#FF77A8" title="pink"></div>
+        <div color="#FFCCAA" title="peach"></div>
     </div>
     <div class="brush">
         <p>Selected:</p>
